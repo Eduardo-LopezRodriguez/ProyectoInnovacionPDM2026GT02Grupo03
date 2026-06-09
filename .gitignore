@@ -1,0 +1,49 @@
+# Gradle
+.gradle/
+build/
+*/build/
+
+# Local SDK path
+local.properties
+
+# Android Studio
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# Generated files
+captures/
+.externalNativeBuild/
+.cxx/
+
+# APK / AAB outputs
+*.apk
+*.aab
+*.ap_
+*.aar
+
+# Kotlin / Java compiled files
+*.class
+*.dex
+
+# Logs
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Keystore files
+*.jks
+*.keystore
+
+# Google services / secrets
+google-services.json
+secrets.properties
+
+# Navigation editor backup files
+.navigation/
+
+# KSP / generated
+app/build/generated/
