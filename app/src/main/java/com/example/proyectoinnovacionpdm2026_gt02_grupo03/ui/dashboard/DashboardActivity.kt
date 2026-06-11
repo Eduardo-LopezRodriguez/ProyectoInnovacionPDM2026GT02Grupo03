@@ -59,7 +59,7 @@ class DashboardActivity : AppCompatActivity() {
 
     private fun configurarEventos() {
         btnContactos.setOnClickListener {
-            mostrarPendiente("Contactos de confianza")
+            startActivity(Intent(this, com.example.proyectoinnovacionpdm2026_gt02_grupo03.ui.contactos.ContactosActivity::class.java))
         }
 
         btnLugares.setOnClickListener {
@@ -99,3 +99,4 @@ class DashboardActivity : AppCompatActivity() {
         finish()
     }
 }
+
