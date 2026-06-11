@@ -9,6 +9,10 @@
         android:theme="@style/Theme.ProyectoInnovacionPDM2026GT02Grupo03">
 
         <activity
+            android:name=".ui.dashboard.DashboardActivity"
+            android:exported="false" />
+
+        <activity
             android:name=".ui.registro.RegistroActivity"
             android:exported="false" />
 

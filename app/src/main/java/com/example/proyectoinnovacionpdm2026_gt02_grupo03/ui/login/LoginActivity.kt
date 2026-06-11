@@ -7,7 +7,7 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.example.proyectoinnovacionpdm2026_gt02_grupo03.MainActivity
+import com.example.proyectoinnovacionpdm2026_gt02_grupo03.ui.dashboard.DashboardActivity
 import com.example.proyectoinnovacionpdm2026_gt02_grupo03.R
 import com.example.proyectoinnovacionpdm2026_gt02_grupo03.data.local.database.AppDatabase
 import com.example.proyectoinnovacionpdm2026_gt02_grupo03.data.repository.UsuarioRepository
@@ -79,7 +79,8 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun abrirPantallaPrincipal() {
-        startActivity(Intent(this, MainActivity::class.java))
+        startActivity(Intent(this, DashboardActivity::class.java))
         finish()
     }
 }
+
