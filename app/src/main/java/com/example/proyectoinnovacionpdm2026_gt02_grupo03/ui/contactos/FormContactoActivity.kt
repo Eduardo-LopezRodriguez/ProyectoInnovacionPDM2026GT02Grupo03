@@ -13,6 +13,7 @@ import com.example.proyectoinnovacionpdm2026_gt02_grupo03.util.SesionUsuario
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import com.example.proyectoinnovacionpdm2026_gt02_grupo03.util.Validador
 
 class FormContactoActivity : AppCompatActivity() {
 
@@ -96,6 +97,7 @@ class FormContactoActivity : AppCompatActivity() {
     private fun guardarContacto() {
         val nombre = edtNombre.text.toString().trim()
         val telefono = edtTelefono.text.toString().trim()
+        val telefonoLimpio = Validador.limpiarTelefono(telefono)
         val correo = edtCorreo.text.toString().trim()
         val parentesco = edtParentesco.text.toString().trim()
         val prioridad = edtPrioridad.text.toString().toIntOrNull() ?: 1
@@ -105,8 +107,28 @@ class FormContactoActivity : AppCompatActivity() {
             return
         }
 
-        if (nombre.isBlank() || telefono.isBlank() || parentesco.isBlank()) {
-            Toast.makeText(this, "Nombre, teléfono y parentesco son obligatorios", Toast.LENGTH_SHORT).show()
+        if (nombre.isBlank()) {
+            Toast.makeText(this, "Ingrese el nombre del contacto", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        if (telefono.isBlank()) {
+            Toast.makeText(this, "Ingrese el teléfono del contacto", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        if (!Validador.telefonoSvValido(telefono)) {
+            Toast.makeText(this, "El teléfono debe tener exactamente 8 dígitos", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        if (correo.isNotBlank() && !Validador.correoBasicoValido(correo)) {
+            Toast.makeText(this, "Ingrese un correo válido o deje el campo vacío", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        if (parentesco.isBlank()) {
+            Toast.makeText(this, "Ingrese el parentesco del contacto", Toast.LENGTH_SHORT).show()
             return
         }
 
@@ -119,7 +141,7 @@ class FormContactoActivity : AppCompatActivity() {
             if (modoEdicion && contactoActual != null) {
                 val actualizado = contactoActual!!.copy(
                     nombre = nombre,
-                    telefono = telefono,
+                    telefono = telefonoLimpio,
                     correo = correo,
                     parentesco = parentesco,
                     prioridad = prioridad,
@@ -131,7 +153,7 @@ class FormContactoActivity : AppCompatActivity() {
                 val nuevoContacto = ContactoConfianzaEntity(
                     idUsuario = idUsuario,
                     nombre = nombre,
-                    telefono = telefono,
+                    telefono = telefonoLimpio,
                     correo = correo,
                     parentesco = parentesco,
                     prioridad = prioridad,

@@ -13,6 +13,7 @@ import com.example.proyectoinnovacionpdm2026_gt02_grupo03.data.repository.Usuari
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import com.example.proyectoinnovacionpdm2026_gt02_grupo03.util.Validador
 
 class RegistroActivity : AppCompatActivity() {
 
@@ -43,7 +44,12 @@ class RegistroActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            if (!correo.contains("@")) {
+            if (!Validador.telefonoSvValido(telefono)) {
+                Toast.makeText(this, "El teléfono debe tener exactamente 8 dígitos", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            if (!Validador.correoBasicoValido(correo)) {
                 Toast.makeText(this, "Ingrese un correo válido", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
@@ -53,7 +59,7 @@ class RegistroActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            registrarUsuario(nombre, correo, telefono, password)
+            registrarUsuario(nombre, correo, Validador.limpiarTelefono(telefono), password)
         }
 
         txtVolverLogin.setOnClickListener {
