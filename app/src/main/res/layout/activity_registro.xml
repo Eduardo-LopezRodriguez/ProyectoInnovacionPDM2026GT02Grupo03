@@ -2,82 +2,143 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true"
-    android:background="#F4F6F8">
+    android:background="@color/app_surface"
+    android:fillViewport="true">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
         android:orientation="vertical"
-        android:padding="28dp">
+        android:padding="24dp">
+
+        <TextView
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/bg_icon_blue"
+            android:gravity="center"
+            android:text="👤"
+            android:textSize="32sp" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             android:text="Crear cuenta"
             android:textAlignment="center"
-            android:textSize="28sp"
-            android:textStyle="bold"
-            android:textColor="#1E293B" />
+            android:textColor="@color/app_text"
+            android:textSize="22sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="Completa tus datos para registrarte"
+            android:textAlignment="center"
+            android:textColor="@color/app_text_secondary"
+            android:textSize="13sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="22dp"
+            android:text="Nombre completo"
+            android:textColor="@color/app_text"
+            android:textSize="13sp"
+            android:textStyle="bold" />
 
         <EditText
             android:id="@+id/edtNombre"
             android:layout_width="match_parent"
-            android:layout_height="52dp"
-            android:layout_marginTop="30dp"
-            android:hint="Nombre completo"
+            android:layout_height="44dp"
+            android:layout_marginTop="6dp"
+            android:background="@drawable/bg_input"
+            android:hint="Ej. Ana Pérez"
             android:inputType="textPersonName"
-            android:padding="14dp"
-            android:background="@android:drawable/edit_text" />
+            android:textSize="13sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="13dp"
+            android:text="Correo electrónico"
+            android:textColor="@color/app_text"
+            android:textSize="13sp"
+            android:textStyle="bold" />
 
         <EditText
             android:id="@+id/edtCorreoRegistro"
             android:layout_width="match_parent"
-            android:layout_height="52dp"
-            android:layout_marginTop="14dp"
-            android:hint="Correo"
+            android:layout_height="44dp"
+            android:layout_marginTop="6dp"
+            android:background="@drawable/bg_input"
+            android:hint="ejemplo@correo.com"
             android:inputType="textEmailAddress"
-            android:padding="14dp"
-            android:background="@android:drawable/edit_text" />
+            android:textSize="13sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="13dp"
+            android:text="Teléfono"
+            android:textColor="@color/app_text"
+            android:textSize="13sp"
+            android:textStyle="bold" />
 
         <EditText
             android:id="@+id/edtTelefono"
             android:layout_width="match_parent"
-            android:layout_height="52dp"
-            android:layout_marginTop="14dp"
-            android:hint="Teléfono"
+            android:layout_height="44dp"
+            android:layout_marginTop="6dp"
+            android:background="@drawable/bg_input"
+            android:hint="Ej. 77777777"
             android:inputType="phone"
-            android:padding="14dp"
-            android:background="@android:drawable/edit_text" />
+            android:textSize="13sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="13dp"
+            android:text="Contraseña"
+            android:textColor="@color/app_text"
+            android:textSize="13sp"
+            android:textStyle="bold" />
 
         <EditText
             android:id="@+id/edtPasswordRegistro"
             android:layout_width="match_parent"
-            android:layout_height="52dp"
-            android:layout_marginTop="14dp"
-            android:hint="Contraseña"
+            android:layout_height="44dp"
+            android:layout_marginTop="6dp"
+            android:background="@drawable/bg_input"
+            android:hint="••••••••"
             android:inputType="textPassword"
-            android:padding="14dp"
-            android:background="@android:drawable/edit_text" />
+            android:textSize="13sp" />
 
         <Button
+            android:backgroundTint="@null"
             android:id="@+id/btnRegistrarse"
             android:layout_width="match_parent"
-            android:layout_height="52dp"
+            android:layout_height="48dp"
             android:layout_marginTop="24dp"
-            android:text="Registrarme" />
+            android:background="@drawable/bg_button_primary"
+            android:text="Registrarme"
+            android:textAllCaps="false"
+            android:textColor="@color/app_text_light"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/txtVolverLogin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="18dp"
-            android:text="Ya tengo cuenta"
+            android:layout_marginTop="14dp"
+            android:padding="8dp"
+            android:text="¿Ya tienes cuenta? Iniciar sesión"
             android:textAlignment="center"
-            android:textColor="#2563EB"
-            android:textSize="15sp"
+            android:textColor="@color/app_primary"
+            android:textSize="13sp"
             android:textStyle="bold" />
 
     </LinearLayout>
 </ScrollView>
+

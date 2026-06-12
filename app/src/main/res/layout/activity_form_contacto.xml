@@ -2,86 +2,70 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F4F6F8"
+    android:background="@color/app_surface"
     android:fillViewport="true">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="24dp">
+        android:orientation="vertical">
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Contacto de confianza"
-            android:textColor="#1E293B"
-            android:textSize="24sp"
+            android:layout_height="58dp"
+            android:background="@drawable/bg_toolbar"
+            android:gravity="center_vertical"
+            android:paddingStart="18dp"
+            android:text="Agregar contacto"
+            android:textColor="@color/app_text_light"
+            android:textSize="17sp"
             android:textStyle="bold" />
 
-        <EditText
-            android:id="@+id/edtNombreContacto"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="52dp"
-            android:layout_marginTop="24dp"
-            android:hint="Nombre completo"
-            android:inputType="textPersonName"
-            android:padding="14dp"
-            android:background="@android:drawable/edit_text" />
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="22dp">
 
-        <EditText
-            android:id="@+id/edtTelefonoContacto"
-            android:layout_width="match_parent"
-            android:layout_height="52dp"
-            android:layout_marginTop="14dp"
-            android:hint="Teléfono"
-            android:inputType="phone"
-            android:padding="14dp"
-            android:background="@android:drawable/edit_text" />
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Nombre" android:textColor="@color/app_text" android:textSize="12sp" android:textStyle="bold" />
+            <EditText android:id="@+id/edtNombreContacto" android:layout_width="match_parent" android:layout_height="44dp" android:layout_marginTop="6dp" android:background="@drawable/bg_input" android:hint="Ingresa el nombre" android:inputType="textPersonName" android:textSize="13sp" />
 
-        <EditText
-            android:id="@+id/edtCorreoContacto"
-            android:layout_width="match_parent"
-            android:layout_height="52dp"
-            android:layout_marginTop="14dp"
-            android:hint="Correo opcional"
-            android:inputType="textEmailAddress"
-            android:padding="14dp"
-            android:background="@android:drawable/edit_text" />
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="15dp" android:text="Teléfono" android:textColor="@color/app_text" android:textSize="12sp" android:textStyle="bold" />
+            <EditText android:id="@+id/edtTelefonoContacto" android:layout_width="match_parent" android:layout_height="44dp" android:layout_marginTop="6dp" android:background="@drawable/bg_input" android:hint="Ingresa el teléfono" android:inputType="phone" android:textSize="13sp" />
 
-        <EditText
-            android:id="@+id/edtParentescoContacto"
-            android:layout_width="match_parent"
-            android:layout_height="52dp"
-            android:layout_marginTop="14dp"
-            android:hint="Parentesco"
-            android:inputType="text"
-            android:padding="14dp"
-            android:background="@android:drawable/edit_text" />
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="15dp" android:text="Correo electrónico" android:textColor="@color/app_text" android:textSize="12sp" android:textStyle="bold" />
+            <EditText android:id="@+id/edtCorreoContacto" android:layout_width="match_parent" android:layout_height="44dp" android:layout_marginTop="6dp" android:background="@drawable/bg_input" android:hint="Ingresa el correo" android:inputType="textEmailAddress" android:textSize="13sp" />
 
-        <EditText
-            android:id="@+id/edtPrioridadContacto"
-            android:layout_width="match_parent"
-            android:layout_height="52dp"
-            android:layout_marginTop="14dp"
-            android:hint="Prioridad, ejemplo: 1"
-            android:inputType="number"
-            android:padding="14dp"
-            android:background="@android:drawable/edit_text" />
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="15dp" android:text="Parentesco" android:textColor="@color/app_text" android:textSize="12sp" android:textStyle="bold" />
+            <EditText android:id="@+id/edtParentescoContacto" android:layout_width="match_parent" android:layout_height="44dp" android:layout_marginTop="6dp" android:background="@drawable/bg_input" android:hint="Ej. Madre, hermano, amigo" android:inputType="text" android:textSize="13sp" />
 
-        <Button
-            android:id="@+id/btnGuardarContacto"
-            android:layout_width="match_parent"
-            android:layout_height="52dp"
-            android:layout_marginTop="24dp"
-            android:text="Guardar contacto" />
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="15dp" android:text="Prioridad" android:textColor="@color/app_text" android:textSize="12sp" android:textStyle="bold" />
+            <EditText android:id="@+id/edtPrioridadContacto" android:layout_width="match_parent" android:layout_height="44dp" android:layout_marginTop="6dp" android:background="@drawable/bg_input" android:hint="Ej. 1" android:inputType="number" android:textSize="13sp" />
 
-        <Button
-            android:id="@+id/btnCancelarContacto"
-            android:layout_width="match_parent"
-            android:layout_height="52dp"
-            android:layout_marginTop="12dp"
-            android:text="Cancelar" />
+            <Button
+            android:backgroundTint="@null"
+                android:id="@+id/btnGuardarContacto"
+                android:layout_width="match_parent"
+                android:layout_height="46dp"
+                android:layout_marginTop="24dp"
+                android:background="@drawable/bg_button_primary"
+                android:text="Guardar contacto"
+                android:textAllCaps="false"
+                android:textColor="@color/app_text_light"
+                android:textStyle="bold" />
 
+            <Button
+            android:backgroundTint="@null"
+                android:id="@+id/btnCancelarContacto"
+                android:layout_width="match_parent"
+                android:layout_height="46dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/bg_button_outline"
+                android:text="Cancelar"
+                android:textAllCaps="false"
+                android:textColor="@color/app_primary"
+                android:textStyle="bold" />
+        </LinearLayout>
     </LinearLayout>
 </ScrollView>
+

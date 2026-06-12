@@ -3,58 +3,89 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="10dp"
-    android:background="#FFFFFF"
+    android:background="@drawable/bg_card"
     android:orientation="vertical"
-    android:padding="16dp">
-
-    <TextView
-        android:id="@+id/txtNombreContacto"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Nombre contacto"
-        android:textColor="#1E293B"
-        android:textSize="18sp"
-        android:textStyle="bold" />
-
-    <TextView
-        android:id="@+id/txtDetalleContacto"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:text="Parentesco • teléfono"
-        android:textColor="#475569"
-        android:textSize="14sp" />
-
-    <TextView
-        android:id="@+id/txtPrioridadContacto"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:text="Prioridad: 1"
-        android:textColor="#64748B"
-        android:textSize="13sp" />
+    android:padding="12dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:background="@drawable/bg_icon_blue"
+            android:padding="10dp"
+            android:src="@drawable/ic_contacts" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/txtNombreContacto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Nombre"
+                android:textColor="@color/app_text"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/txtDetalleContacto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:text="Parentesco • teléfono"
+                android:textColor="@color/app_text_secondary"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/txtPrioridadContacto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:text="Prioridad: 1"
+                android:textColor="@color/app_text_secondary"
+                android:textSize="11sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:orientation="horizontal">
 
         <Button
+            android:backgroundTint="@null"
             android:id="@+id/btnEditarContacto"
             android:layout_width="0dp"
-            android:layout_height="46dp"
+            android:layout_height="42dp"
             android:layout_weight="1"
-            android:text="Editar" />
+            android:background="@drawable/bg_button_outline"
+            android:text="Editar"
+            android:textAllCaps="false"
+            android:textColor="@color/app_primary"
+            android:textStyle="bold" />
 
         <Button
+            android:backgroundTint="@null"
             android:id="@+id/btnEliminarContacto"
             android:layout_width="0dp"
-            android:layout_height="46dp"
-            android:layout_marginStart="10dp"
+            android:layout_height="42dp"
+            android:layout_marginStart="8dp"
             android:layout_weight="1"
-            android:text="Desactivar" />
-
+            android:background="@drawable/bg_button_danger_outline"
+            android:text="Desactivar"
+            android:textAllCaps="false"
+            android:textColor="@color/app_danger"
+            android:textStyle="bold" />
     </LinearLayout>
-
 </LinearLayout>
+
