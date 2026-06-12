@@ -56,8 +56,12 @@
         <activity
             android:name=".ui.lugares.LugaresActivity"
             android:exported="false" />
+            <activity
+            android:name=".ui.servicios.ServiciosEmergenciaActivity"
+            android:exported="false" />
     </application>
 
 </manifest>
+
 
 
