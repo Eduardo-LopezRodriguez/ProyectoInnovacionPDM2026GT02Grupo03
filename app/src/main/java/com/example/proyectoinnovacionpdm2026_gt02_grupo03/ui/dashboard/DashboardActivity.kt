@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.proyectoinnovacionpdm2026_gt02_grupo03.R
 import com.example.proyectoinnovacionpdm2026_gt02_grupo03.ui.login.LoginActivity
 import com.example.proyectoinnovacionpdm2026_gt02_grupo03.ui.servicios.ServiciosEmergenciaActivity
+import com.example.proyectoinnovacionpdm2026_gt02_grupo03.ui.mapa.MapaSeguridadActivity
 import com.example.proyectoinnovacionpdm2026_gt02_grupo03.util.SesionUsuario
 
 class DashboardActivity : AppCompatActivity() {
@@ -78,7 +79,7 @@ class DashboardActivity : AppCompatActivity() {
         }
 
         btnMapa.setOnClickListener {
-            mostrarPendiente("Mapa de seguridad")
+            startActivity(Intent(this, MapaSeguridadActivity::class.java))
         }
 
         btnSos.setOnClickListener {

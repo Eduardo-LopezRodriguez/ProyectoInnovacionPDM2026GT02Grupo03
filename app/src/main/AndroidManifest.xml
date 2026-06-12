@@ -59,9 +59,13 @@
             <activity
             android:name=".ui.servicios.ServiciosEmergenciaActivity"
             android:exported="false" />
+            <activity
+            android:name=".ui.mapa.MapaSeguridadActivity"
+            android:exported="false" />
     </application>
 
 </manifest>
+
 
 
 
