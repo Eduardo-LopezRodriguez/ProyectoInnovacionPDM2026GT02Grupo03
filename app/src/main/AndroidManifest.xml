@@ -48,7 +48,16 @@
         <activity
             android:name=".ui.mapa.MapaSeleccionLugarActivity"
             android:exported="false" />
+    
+        <activity
+            android:name=".ui.lugares.FormLugarActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".ui.lugares.LugaresActivity"
+            android:exported="false" />
     </application>
 
 </manifest>
+
 

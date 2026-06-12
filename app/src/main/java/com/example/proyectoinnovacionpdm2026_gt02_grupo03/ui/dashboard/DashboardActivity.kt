@@ -63,7 +63,7 @@ class DashboardActivity : AppCompatActivity() {
         }
 
         btnLugares.setOnClickListener {
-            mostrarPendiente("Lugares importantes")
+            startActivity(Intent(this, com.example.proyectoinnovacionpdm2026_gt02_grupo03.ui.lugares.LugaresActivity::class.java))
         }
 
         btnMapa.setOnClickListener {
@@ -99,4 +99,5 @@ class DashboardActivity : AppCompatActivity() {
         finish()
     }
 }
+
 
