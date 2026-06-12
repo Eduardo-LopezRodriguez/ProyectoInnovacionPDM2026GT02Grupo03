@@ -54,7 +54,6 @@ dependencies {
     implementation(libs.retrofit.gson)
 
     // Google Maps y ubicación GPS
-    implementation(libs.play.services.maps)
     implementation(libs.play.services.location)
 
     // RecyclerView
@@ -66,4 +65,7 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+
+    // OpenStreetMap / osmdroid
+    implementation(libs.osmdroid.android)
 }
