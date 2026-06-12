@@ -30,6 +30,8 @@ import org.osmdroid.util.GeoPoint
 import org.osmdroid.views.MapView
 import org.osmdroid.views.overlay.Marker
 import org.osmdroid.views.overlay.Polygon
+import android.content.Intent
+import com.example.proyectoinnovacionpdm2026_gt02_grupo03.ui.servicios.ServiciosEmergenciaActivity
 
 class MapaSeguridadActivity : AppCompatActivity() {
 
@@ -333,11 +335,7 @@ class MapaSeguridadActivity : AppCompatActivity() {
             .setMessage(mensaje)
             .setPositiveButton("Entendido", null)
             .setNegativeButton("Ver servicios") { _, _ ->
-                Toast.makeText(
-                    this,
-                    "Puedes revisar servicios de emergencia desde el dashboard.",
-                    Toast.LENGTH_LONG
-                ).show()
+                startActivity(Intent(this, ServiciosEmergenciaActivity::class.java))
             }
             .show()
     }
