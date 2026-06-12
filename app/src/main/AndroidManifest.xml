@@ -44,6 +44,11 @@
         <activity
             android:name=".ui.contactos.ContactosActivity"
             android:exported="false" />
+    
+        <activity
+            android:name=".ui.mapa.MapaSeleccionLugarActivity"
+            android:exported="false" />
     </application>
 
 </manifest>
+

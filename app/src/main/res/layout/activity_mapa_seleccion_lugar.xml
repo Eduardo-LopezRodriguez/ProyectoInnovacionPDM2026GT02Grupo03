@@ -1,0 +1,67 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#F4F6F8">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Seleccionar ubicación"
+        android:textColor="#1E293B"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:paddingStart="18dp"
+        android:paddingEnd="18dp"
+        android:paddingTop="18dp"
+        android:paddingBottom="6dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Toca el mapa para elegir la ubicación del lugar."
+        android:textColor="#64748B"
+        android:textSize="14sp"
+        android:paddingStart="18dp"
+        android:paddingEnd="18dp"
+        android:paddingBottom="10dp" />
+
+    <org.osmdroid.views.MapView
+        android:id="@+id/mapViewSeleccionLugar"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="#FFFFFF"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/txtCoordenadasSeleccionadas"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Latitud: --\nLongitud: --"
+            android:textColor="#1E293B"
+            android:textSize="15sp" />
+
+        <Button
+            android:id="@+id/btnUsarUbicacion"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:layout_marginTop="12dp"
+            android:text="Usar esta ubicación" />
+
+        <Button
+            android:id="@+id/btnCancelarMapa"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:layout_marginTop="8dp"
+            android:text="Cancelar" />
+
+    </LinearLayout>
+
+</LinearLayout>
