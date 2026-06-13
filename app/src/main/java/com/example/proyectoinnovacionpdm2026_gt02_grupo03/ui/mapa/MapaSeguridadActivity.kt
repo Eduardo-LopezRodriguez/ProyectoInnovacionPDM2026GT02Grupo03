@@ -32,6 +32,8 @@ import org.osmdroid.views.overlay.Marker
 import org.osmdroid.views.overlay.Polygon
 import android.content.Intent
 import com.example.proyectoinnovacionpdm2026_gt02_grupo03.ui.servicios.ServiciosEmergenciaActivity
+import com.example.proyectoinnovacionpdm2026_gt02_grupo03.data.local.entity.LugarImportanteEntity
+import com.example.proyectoinnovacionpdm2026_gt02_grupo03.util.SesionUsuario
 
 class MapaSeguridadActivity : AppCompatActivity() {
 
@@ -48,6 +50,7 @@ class MapaSeguridadActivity : AppCompatActivity() {
 
     private var zonas: List<ZonaRiesgoEntity> = emptyList()
     private var servicios: List<ServicioEmergenciaEntity> = emptyList()
+    private var lugares: List<LugarImportanteEntity> = emptyList()
     private var idZonaAdvertida: Int? = null
     private var markerUsuario: Marker? = null
 
@@ -113,14 +116,22 @@ class MapaSeguridadActivity : AppCompatActivity() {
         CoroutineScope(Dispatchers.IO).launch {
             val zonasLocales = db.zonaRiesgoDao().listarActivas()
             val serviciosLocales = db.servicioEmergenciaDao().listarActivos()
+            val idUsuario = SesionUsuario.obtenerIdUsuario(this@MapaSeguridadActivity)
+
+            val lugaresLocales = if (idUsuario > 0) {
+                db.lugarImportanteDao().listarActivosPorUsuario(idUsuario)
+            } else {
+                emptyList()
+            }
 
             withContext(Dispatchers.Main) {
                 zonas = zonasLocales
                 servicios = serviciosLocales
+                lugares = lugaresLocales
 
                 dibujarMapa()
 
-                txtEstadoMapa.text = "Zonas: ${zonas.size} | Servicios: ${servicios.size}"
+                txtEstadoMapa.text = "Zonas: ${zonas.size} | Servicios: ${servicios.size} | Lugares: ${lugares.size}"
 
                 if (zonas.isEmpty() && servicios.isEmpty()) {
                     Toast.makeText(
@@ -145,6 +156,10 @@ class MapaSeguridadActivity : AppCompatActivity() {
 
         servicios.forEach { servicio ->
             dibujarServicio(servicio)
+        }
+
+        lugares.forEach { lugar ->
+            dibujarLugarImportante(lugar)
         }
 
         mapView.invalidate()
@@ -182,6 +197,19 @@ class MapaSeguridadActivity : AppCompatActivity() {
         marker.snippet = "${servicio.tipoServicio} • ${servicio.telefono}"
         marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM)
         marker.setIcon(ContextCompat.getDrawable(this, R.drawable.ic_marker_servicio))
+
+        mapView.overlays.add(marker)
+    }
+
+    private fun dibujarLugarImportante(lugar: LugarImportanteEntity) {
+        val punto = GeoPoint(lugar.latitud, lugar.longitud)
+
+        val marker = Marker(mapView)
+        marker.position = punto
+        marker.title = "Lugar: ${lugar.nombre}"
+        marker.snippet = "${lugar.tipoLugar} • ${lugar.direccion}"
+        marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM)
+        marker.setIcon(ContextCompat.getDrawable(this, R.drawable.ic_marker_lugar))
 
         mapView.overlays.add(marker)
     }
