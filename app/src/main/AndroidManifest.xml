@@ -62,9 +62,16 @@
             <activity
             android:name=".ui.mapa.MapaSeguridadActivity"
             android:exported="false" />
+            <activity
+            android:name=".ui.alertas.SosActivity"
+            android:exported="false" />
+            <activity
+            android:name=".ui.alertas.HistorialAlertasActivity"
+            android:exported="false" />
     </application>
 
 </manifest>
+
 
 
 

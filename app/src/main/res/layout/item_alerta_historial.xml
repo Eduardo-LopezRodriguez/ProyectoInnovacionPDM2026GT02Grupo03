@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="10dp"
+    android:background="@drawable/bg_card"
+    android:elevation="3dp"
+    android:orientation="vertical"
+    android:padding="12dp">
+
+    <TextView
+        android:id="@+id/txtTipoAlerta"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="SOS • SOS_MANUAL"
+        android:textColor="@color/app_danger"
+        android:textSize="15sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/txtFechaAlerta"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="3dp"
+        android:text="2026-01-01 12:00:00"
+        android:textColor="@color/app_text_secondary"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/txtMensajeAlerta"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Mensaje de alerta"
+        android:textColor="@color/app_text"
+        android:textSize="13sp" />
+
+    <TextView
+        android:id="@+id/txtUbicacionAlerta"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:text="Lat: -- | Lng: --"
+        android:textColor="@color/app_text_secondary"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/txtEstadoAlerta"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="3dp"
+        android:text="Estado: ACTIVA"
+        android:textColor="@color/app_text_secondary"
+        android:textSize="12sp" />
+
+</LinearLayout>

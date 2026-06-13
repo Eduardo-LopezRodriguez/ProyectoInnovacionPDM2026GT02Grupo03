@@ -1,0 +1,68 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/app_surface"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="58dp"
+        android:background="@drawable/bg_toolbar"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="14dp"
+        android:paddingEnd="14dp">
+
+        <Button
+            android:id="@+id/btnVolverHistorial"
+            android:layout_width="42dp"
+            android:layout_height="42dp"
+            android:background="@android:color/transparent"
+            android:backgroundTint="@null"
+            android:text="‹"
+            android:textColor="@color/app_text_light"
+            android:textSize="28sp" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:text="Historial de alertas"
+            android:textColor="@color/app_text_light"
+            android:textSize="17sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/txtEstadoHistorial"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="18dp"
+        android:paddingTop="16dp"
+        android:paddingEnd="18dp"
+        android:text="Cargando historial..."
+        android:textColor="@color/app_text_secondary"
+        android:textSize="13sp" />
+
+    <TextView
+        android:id="@+id/txtSinAlertas"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="18dp"
+        android:text="Aún no hay alertas registradas."
+        android:textAlignment="center"
+        android:textColor="@color/app_text_secondary"
+        android:textSize="14sp" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerHistorialAlertas"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginStart="14dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="14dp"
+        android:layout_weight="1" />
+
+</LinearLayout>

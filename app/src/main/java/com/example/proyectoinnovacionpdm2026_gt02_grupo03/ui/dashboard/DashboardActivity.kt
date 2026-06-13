@@ -12,6 +12,8 @@ import com.example.proyectoinnovacionpdm2026_gt02_grupo03.ui.servicios.Servicios
 import com.example.proyectoinnovacionpdm2026_gt02_grupo03.ui.mapa.MapaSeguridadActivity
 import com.example.proyectoinnovacionpdm2026_gt02_grupo03.util.WorkManagerHelper
 import com.example.proyectoinnovacionpdm2026_gt02_grupo03.util.SesionUsuario
+import com.example.proyectoinnovacionpdm2026_gt02_grupo03.ui.alertas.SosActivity
+import com.example.proyectoinnovacionpdm2026_gt02_grupo03.ui.alertas.HistorialAlertasActivity
 
 class DashboardActivity : AppCompatActivity() {
 
@@ -87,7 +89,7 @@ class DashboardActivity : AppCompatActivity() {
         }
 
         btnSos.setOnClickListener {
-            mostrarPendiente("Alerta SOS")
+            startActivity(Intent(this, SosActivity::class.java))
         }
 
         btnServicios.setOnClickListener {
@@ -95,7 +97,7 @@ class DashboardActivity : AppCompatActivity() {
         }
 
         btnHistorial.setOnClickListener {
-            mostrarPendiente("Historial de alertas")
+            startActivity(Intent(this, HistorialAlertasActivity::class.java))
         }
 
         btnCerrarSesion.setOnClickListener {
