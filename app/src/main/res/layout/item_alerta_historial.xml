@@ -45,11 +45,31 @@
         android:textSize="12sp" />
 
     <TextView
+        android:id="@+id/txtContactoAlerta"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:text="Contacto: Sin contacto asociado"
+        android:textColor="@color/app_text"
+        android:textSize="12sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/txtEnvioAlerta"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="3dp"
+        android:text="Envío: PENDIENTE"
+        android:textColor="@color/app_primary"
+        android:textSize="12sp"
+        android:textStyle="bold" />
+
+    <TextView
         android:id="@+id/txtEstadoAlerta"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="3dp"
-        android:text="Estado: ACTIVA"
+        android:text="Estado: PENDIENTE"
         android:textColor="@color/app_text_secondary"
         android:textSize="12sp" />
 

@@ -5,6 +5,7 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
+import android.net.Uri
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
@@ -14,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import com.example.proyectoinnovacionpdm2026_gt02_grupo03.R
 import com.example.proyectoinnovacionpdm2026_gt02_grupo03.data.local.database.AppDatabase
+import com.example.proyectoinnovacionpdm2026_gt02_grupo03.data.repository.ContactoEnvioSos
 import com.example.proyectoinnovacionpdm2026_gt02_grupo03.data.repository.SosLocalRepository
 import com.example.proyectoinnovacionpdm2026_gt02_grupo03.util.SesionUsuario
 import com.google.android.gms.location.LocationServices
@@ -26,7 +28,6 @@ import kotlinx.coroutines.withContext
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
-import android.net.Uri
 
 class SosActivity : AppCompatActivity() {
 
@@ -159,7 +160,7 @@ class SosActivity : AppCompatActivity() {
 
         AlertDialog.Builder(this)
             .setTitle("Activar alerta SOS")
-            .setMessage("Se registrará una alerta SOS con tu ubicación actual y tus contactos activos quedarán asociados al aviso.")
+            .setMessage("Se registrará una alerta SOS con tu ubicación actual. Luego podrás elegir el contacto al que se enviará el mensaje.")
             .setPositiveButton("Activar SOS") { _, _ ->
                 registrarSos(location)
             }
@@ -208,12 +209,78 @@ class SosActivity : AppCompatActivity() {
                     if (contactos.isEmpty()) {
                         Toast.makeText(
                             this@SosActivity,
-                            "No hay contactos activos para enviar la alerta.",
+                            "No hay contactos activos. La alerta quedó pendiente y sin contacto asociado.",
                             Toast.LENGTH_LONG
                         ).show()
                     } else {
-                        mostrarSelectorContactoSos(contactos, mensajeSos)
+                        mostrarSelectorContactoSos(
+                            idAlerta = resultado.idAlerta,
+                            contactos = contactos,
+                            mensaje = mensajeSos,
+                            fechaHora = fechaHora
+                        )
                     }
+                }
+            }
+        }
+    }
+
+    private fun mostrarSelectorContactoSos(
+        idAlerta: Long,
+        contactos: List<ContactoEnvioSos>,
+        mensaje: String,
+        fechaHora: String
+    ) {
+        val opciones = contactos.map { contacto ->
+            "${contacto.nombre} - ${contacto.telefono}"
+        }.toTypedArray()
+
+        AlertDialog.Builder(this)
+            .setTitle("Enviar alerta SOS")
+            .setItems(opciones) { _, which ->
+                val contactoSeleccionado = contactos[which]
+
+                registrarContactoYEnviarSms(
+                    idAlerta = idAlerta,
+                    contacto = contactoSeleccionado,
+                    mensaje = mensaje,
+                    fechaHora = fechaHora
+                )
+            }
+            .setNegativeButton("Cancelar envío") { _, _ ->
+                txtEstadoSos.text = "Alerta registrada como pendiente, sin contacto asociado."
+                Toast.makeText(
+                    this,
+                    "No se seleccionó contacto. La alerta quedó pendiente.",
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+            .show()
+    }
+
+    private fun registrarContactoYEnviarSms(
+        idAlerta: Long,
+        contacto: ContactoEnvioSos,
+        mensaje: String,
+        fechaHora: String
+    ) {
+        CoroutineScope(Dispatchers.IO).launch {
+            val resultado = repository.registrarEnvioContacto(
+                idAlerta = idAlerta,
+                contacto = contacto,
+                mensajeEnviado = mensaje,
+                fechaEnvio = fechaHora
+            )
+
+            withContext(Dispatchers.Main) {
+                txtEstadoSos.text = resultado.mensaje
+                Toast.makeText(this@SosActivity, resultado.mensaje, Toast.LENGTH_LONG).show()
+
+                if (resultado.exito) {
+                    abrirSmsSos(
+                        telefono = contacto.telefono,
+                        mensaje = mensaje
+                    )
                 }
             }
         }
@@ -232,14 +299,14 @@ class SosActivity : AppCompatActivity() {
         val linkMapa = "https://www.google.com/maps?q=$latitud,$longitud"
 
         return """
-        ALERTA SOS
+            ALERTA SOS
 
-        Necesito ayuda. Esta es mi ubicación actual:
+            Necesito ayuda. Esta es mi ubicación actual:
 
-        $linkMapa
+            $linkMapa
 
-        Fecha y hora: $fechaHora
-    """.trimIndent()
+            Fecha y hora: $fechaHora
+        """.trimIndent()
     }
 
     private fun abrirSmsSos(
@@ -260,28 +327,6 @@ class SosActivity : AppCompatActivity() {
                 Toast.LENGTH_LONG
             ).show()
         }
-    }
-
-    private fun mostrarSelectorContactoSos(
-        contactos: List<com.example.proyectoinnovacionpdm2026_gt02_grupo03.data.repository.ContactoEnvioSos>,
-        mensaje: String
-    ) {
-        val opciones = contactos.map { contacto ->
-            "${contacto.nombre} - ${contacto.telefono}"
-        }.toTypedArray()
-
-        AlertDialog.Builder(this)
-            .setTitle("Enviar alerta SOS")
-            .setItems(opciones) { _, which ->
-                val contactoSeleccionado = contactos[which]
-
-                abrirSmsSos(
-                    telefono = contactoSeleccionado.telefono,
-                    mensaje = mensaje
-                )
-            }
-            .setNegativeButton("Cancelar", null)
-            .show()
     }
 
     override fun onRequestPermissionsResult(

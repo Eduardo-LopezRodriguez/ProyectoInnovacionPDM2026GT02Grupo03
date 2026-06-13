@@ -11,6 +11,11 @@ data class ResultadoSos(
     val contactosRegistrados: Int = 0
 )
 
+data class ResultadoOperacion(
+    val exito: Boolean,
+    val mensaje: String
+)
+
 data class HistorialAlertaItem(
     val idAlerta: Int,
     val tipoAlerta: String,
@@ -19,7 +24,11 @@ data class HistorialAlertaItem(
     val latitud: Double,
     val longitud: Double,
     val fechaHora: String,
-    val estado: String
+    val estado: String,
+    val contactoNombre: String?,
+    val contactoTelefono: String?,
+    val medioEnvio: String?,
+    val estadoEnvio: String?
 )
 
 data class ContactoEnvioSos(
@@ -27,7 +36,6 @@ data class ContactoEnvioSos(
     val nombre: String,
     val telefono: String
 )
-
 
 class SosLocalRepository(
     private val db: AppDatabase
@@ -73,7 +81,7 @@ class SosLocalRepository(
                 put("latitud", latitud)
                 put("longitud", longitud)
                 put("fechaHora", fechaHora)
-                put("estado", "ACTIVA")
+                put("estado", "PENDIENTE")
             }
 
             val idAlerta = database.insert(
@@ -82,38 +90,13 @@ class SosLocalRepository(
                 alertaValues
             )
 
-            val contactos = obtenerContactosActivos(idUsuario)
-            var contactosInsertados = 0
-
-            contactos.forEach { contacto ->
-                val alertaContactoValues = ContentValues().apply {
-                    put("idAlerta", idAlerta)
-                    put("idContacto", contacto.idContacto)
-                    put("medioEnvio", "SMS")
-                    put(
-                        "mensajeEnviado",
-                        "Alerta SOS registrada para ${contacto.nombre}. Teléfono: ${contacto.telefono}"
-                    )
-                    put("estadoEnvio", "PREPARADO")
-                    put("fechaEnvio", fechaHora)
-                }
-
-                database.insert(
-                    "alertas_contactos",
-                    SQLiteDatabase.CONFLICT_REPLACE,
-                    alertaContactoValues
-                )
-
-                contactosInsertados++
-            }
-
             database.setTransactionSuccessful()
 
             ResultadoSos(
                 exito = true,
-                mensaje = "Alerta SOS registrada. Contactos asociados: $contactosInsertados",
+                mensaje = "Alerta SOS registrada. Selecciona un contacto para enviar.",
                 idAlerta = idAlerta,
-                contactosRegistrados = contactosInsertados
+                contactosRegistrados = 0
             )
         } catch (e: Exception) {
             ResultadoSos(
@@ -130,11 +113,11 @@ class SosLocalRepository(
 
         val cursor = database.query(
             """
-        SELECT idContacto, nombre, telefono
-        FROM contactos_confianza
-        WHERE idUsuario = ? AND activo = 1
-        ORDER BY prioridad ASC
-        """.trimIndent(),
+            SELECT idContacto, nombre, telefono
+            FROM contactos_confianza
+            WHERE idUsuario = ? AND activo = 1
+            ORDER BY prioridad ASC
+            """.trimIndent(),
             arrayOf(idUsuario)
         )
 
@@ -155,15 +138,76 @@ class SosLocalRepository(
         return contactos
     }
 
+    fun registrarEnvioContacto(
+        idAlerta: Long,
+        contacto: ContactoEnvioSos,
+        mensajeEnviado: String,
+        fechaEnvio: String
+    ): ResultadoOperacion {
+        val database = db.openHelper.writableDatabase
+
+        return try {
+            database.beginTransaction()
+
+            val alertaContactoValues = ContentValues().apply {
+                put("idAlerta", idAlerta)
+                put("idContacto", contacto.idContacto)
+                put("medioEnvio", "SMS")
+                put("mensajeEnviado", mensajeEnviado)
+                put("estadoEnvio", "ENVIADO")
+                put("fechaEnvio", fechaEnvio)
+            }
+
+            database.insert(
+                "alertas_contactos",
+                SQLiteDatabase.CONFLICT_REPLACE,
+                alertaContactoValues
+            )
+
+            database.execSQL(
+                "UPDATE alertas_emergencia SET estado = ? WHERE idAlerta = ?",
+                arrayOf("ENVIADA", idAlerta)
+            )
+
+            database.setTransactionSuccessful()
+
+            ResultadoOperacion(
+                exito = true,
+                mensaje = "Alerta asociada a ${contacto.nombre} y marcada como enviada."
+            )
+        } catch (e: Exception) {
+            ResultadoOperacion(
+                exito = false,
+                mensaje = "No se pudo registrar el envío: ${e.message ?: "error desconocido"}"
+            )
+        } finally {
+            database.endTransaction()
+        }
+    }
+
     fun obtenerHistorialAlertas(idUsuario: Int): List<HistorialAlertaItem> {
         val database = db.openHelper.readableDatabase
 
         val cursor = database.query(
             """
-            SELECT idAlerta, tipoAlerta, origenAlerta, mensaje, latitud, longitud, fechaHora, estado
-            FROM alertas_emergencia
-            WHERE idUsuario = ?
-            ORDER BY idAlerta DESC
+            SELECT 
+                ae.idAlerta,
+                ae.tipoAlerta,
+                ae.origenAlerta,
+                ae.mensaje,
+                ae.latitud,
+                ae.longitud,
+                ae.fechaHora,
+                ae.estado,
+                cc.nombre,
+                cc.telefono,
+                ac.medioEnvio,
+                ac.estadoEnvio
+            FROM alertas_emergencia ae
+            LEFT JOIN alertas_contactos ac ON ae.idAlerta = ac.idAlerta
+            LEFT JOIN contactos_confianza cc ON ac.idContacto = cc.idContacto
+            WHERE ae.idUsuario = ?
+            ORDER BY ae.idAlerta DESC
             """.trimIndent(),
             arrayOf(idUsuario)
         )
@@ -181,7 +225,11 @@ class SosLocalRepository(
                         latitud = it.getDouble(4),
                         longitud = it.getDouble(5),
                         fechaHora = it.getString(6),
-                        estado = it.getString(7)
+                        estado = it.getString(7),
+                        contactoNombre = if (it.isNull(8)) null else it.getString(8),
+                        contactoTelefono = if (it.isNull(9)) null else it.getString(9),
+                        medioEnvio = if (it.isNull(10)) null else it.getString(10),
+                        estadoEnvio = if (it.isNull(11)) null else it.getString(11)
                     )
                 )
             }
@@ -190,39 +238,48 @@ class SosLocalRepository(
         return lista
     }
 
-    private fun obtenerContactosActivos(idUsuario: Int): List<ContactoSos> {
-        val database = db.openHelper.readableDatabase
+    fun vaciarHistorialAlertas(idUsuario: Int): ResultadoOperacion {
+        val database = db.openHelper.writableDatabase
 
-        val cursor = database.query(
-            """
-            SELECT idContacto, nombre, telefono
-            FROM contactos_confianza
-            WHERE idUsuario = ? AND activo = 1
-            ORDER BY prioridad ASC
-            """.trimIndent(),
-            arrayOf(idUsuario)
-        )
+        return try {
+            database.beginTransaction()
 
-        val contactos = mutableListOf<ContactoSos>()
-
-        cursor.use {
-            while (it.moveToNext()) {
-                contactos.add(
-                    ContactoSos(
-                        idContacto = it.getInt(0),
-                        nombre = it.getString(1),
-                        telefono = it.getString(2)
-                    )
+            database.execSQL(
+                """
+                DELETE FROM alertas_contactos
+                WHERE idAlerta IN (
+                    SELECT idAlerta FROM alertas_emergencia WHERE idUsuario = ?
                 )
-            }
+                """.trimIndent(),
+                arrayOf(idUsuario)
+            )
+
+            database.execSQL(
+                "DELETE FROM alertas_emergencia WHERE idUsuario = ?",
+                arrayOf(idUsuario)
+            )
+
+            database.execSQL(
+                """
+                DELETE FROM ubicaciones_compartidas
+                WHERE idUsuario = ? AND mensaje LIKE '%alerta SOS%'
+                """.trimIndent(),
+                arrayOf(idUsuario)
+            )
+
+            database.setTransactionSuccessful()
+
+            ResultadoOperacion(
+                exito = true,
+                mensaje = "Historial de alertas vaciado correctamente."
+            )
+        } catch (e: Exception) {
+            ResultadoOperacion(
+                exito = false,
+                mensaje = "No se pudo vaciar el historial: ${e.message ?: "error desconocido"}"
+            )
+        } finally {
+            database.endTransaction()
         }
-
-        return contactos
     }
-
-    private data class ContactoSos(
-        val idContacto: Int,
-        val nombre: String,
-        val telefono: String
-    )
 }

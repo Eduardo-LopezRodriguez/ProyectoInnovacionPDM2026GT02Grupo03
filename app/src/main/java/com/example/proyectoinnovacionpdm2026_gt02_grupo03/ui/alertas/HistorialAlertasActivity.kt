@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -22,6 +24,7 @@ class HistorialAlertasActivity : AppCompatActivity() {
     private lateinit var txtSinAlertas: TextView
     private lateinit var txtEstadoHistorial: TextView
     private lateinit var btnVolverHistorial: Button
+    private lateinit var btnVaciarHistorial: Button
 
     private lateinit var adapter: HistorialAlertasAdapter
     private lateinit var repository: SosLocalRepository
@@ -44,6 +47,7 @@ class HistorialAlertasActivity : AppCompatActivity() {
         txtSinAlertas = findViewById(R.id.txtSinAlertas)
         txtEstadoHistorial = findViewById(R.id.txtEstadoHistorial)
         btnVolverHistorial = findViewById(R.id.btnVolverHistorial)
+        btnVaciarHistorial = findViewById(R.id.btnVaciarHistorial)
     }
 
     private fun configurarRecycler() {
@@ -55,6 +59,10 @@ class HistorialAlertasActivity : AppCompatActivity() {
     private fun configurarEventos() {
         btnVolverHistorial.setOnClickListener {
             finish()
+        }
+
+        btnVaciarHistorial.setOnClickListener {
+            confirmarVaciarHistorial()
         }
     }
 
@@ -81,6 +89,40 @@ class HistorialAlertasActivity : AppCompatActivity() {
                     txtSinAlertas.visibility = View.GONE
                     recyclerHistorialAlertas.visibility = View.VISIBLE
                 }
+            }
+        }
+    }
+
+    private fun confirmarVaciarHistorial() {
+        AlertDialog.Builder(this)
+            .setTitle("Vaciar historial")
+            .setMessage("Se eliminarán todas las alertas registradas para este usuario.")
+            .setPositiveButton("Vaciar") { _, _ ->
+                vaciarHistorial()
+            }
+            .setNegativeButton("Cancelar", null)
+            .show()
+    }
+
+    private fun vaciarHistorial() {
+        val idUsuario = SesionUsuario.obtenerIdUsuario(this)
+
+        if (idUsuario <= 0) {
+            Toast.makeText(this, "No se encontró sesión activa.", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        CoroutineScope(Dispatchers.IO).launch {
+            val resultado = repository.vaciarHistorialAlertas(idUsuario)
+
+            withContext(Dispatchers.Main) {
+                Toast.makeText(
+                    this@HistorialAlertasActivity,
+                    resultado.mensaje,
+                    Toast.LENGTH_LONG
+                ).show()
+
+                cargarHistorial()
             }
         }
     }
